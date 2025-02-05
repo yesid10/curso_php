@@ -1,54 +1,51 @@
 <?php
+$name = "Yesid"; 
+$age = 18;
+$isDev = true;
 
-const URL_API = "https://whenisthenextmcufilm.com/api";
+define('IMAGE', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/1200px-PHP-logo.svg.png');
 
-#Unicializar una nueva sesion en cURL; ch = cURL handle
-$ch = curl_init(URL_API);
+$output = " Hola $name, tienes $age años";
 
-//Indicar que se reciba el resultado de la peticion y no se muestre en pantalla 
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$outputAge = match (true){
+    $age < 2 => "Eres un bebe, $name",
+    $age < 10 => "Eres un niño, $name",
+    $age < 18 => "Eres un adolecente, $name",
+    $age === 18 => "Eres un adulto, $name",
+    defaul => "Eres un adulto, $name",
+};
 
-/*
-Ejecutamos la peticion y guardamos
-el resultado en la variable $response
- */
 
-$response = curl_exec($ch);
-$data = json_decode($response, true);
-curl_close($ch);
+$betsLanguages = [
+    'PHP',
+    'JavaScript',
+    'Python',
+    'Java',
+    'C#',
+    'C++',
+];
+
+$person = [
+    'name' => 'Yesid',
+    'age' => 18,
+    'isDev' => true,
+];
+
 ?>
 
+<h2> Mejores lenguajes: </h2>
+<ul>
+    <?php foreach ($betsLanguages as $Key => $language) : ?>
+        <li><?= $Key . " " . $language?></li>
+    <?php endforeach; ?>
+</ul>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Proxima Pelicula de Marvel</title>
-    <meta name="description" content="Proxima Pelicula de Marvel">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<h2> <?= $outputAge ?> </h2>
 
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-</head>
-<main>
-    <pre style="font-size: 10px; overflow: scroll; height: 50vh; width: 80vw;">
-        <?php var_dump($data); ?>
-    </pre>
-
-    <section>
-        <img src="<?= $data["poster_url"]; ?>" width="300" alt="Poster de <?= $data["title"]; ?> "
-        style="border-radius: 10px;"
-        />
-
-        <hgroup>
-            <h3><?= $data["title"]; ?> se estrena en <?= $data["days_until"]; ?></h3>
-            <p>Fecha de estreno: <?=$data["release_date"]; ?></p>
-            <p>La siguiente pelicula es: <?= $data["following_production"]["title"] ?></p>
-            <img src="<?= $data["following_production"]["poster_url"] ?>" alt="" width="100">   
-        </hgroup>
-    </section>
-</main>
-
-
+<img src="<?= IMAGE ?>" alt="Logo php" width="200">
+<h1>
+    <?= $output; ?>
+</h1>
 
 <style>
     :root {
@@ -60,15 +57,5 @@ curl_close($ch);
         justify-content: center;
         align-items: center;
         flex-direction: column;
-    }
-    main{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-
-        img{
-            justify-content: center;
-        }
     }
 </style>
